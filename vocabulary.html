@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>수능 핵심 어휘 트레이너</title>
+<style>
+:root{--blue:#5368c5;--blue2:#354b9d;--ink:#242a38;--muted:#7b8291;--line:#e8eaf0;--bg:#f4f6fb}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Noto Sans KR",sans-serif;line-height:1.55}
+main{max-width:960px;margin:0 auto;padding:22px 18px 54px}
+.hero{padding:27px 28px;background:linear-gradient(115deg,#303f78,#586dcc);color:white;border-radius:0 0 25px 25px}
+.eyebrow{font-size:11px;letter-spacing:1.5px;font-weight:800;opacity:.8}.hero h1{font-size:32px;margin:8px 0}.hero p{font-size:13px;opacity:.9;margin:0 0 17px}
+.tags{display:flex;gap:7px;flex-wrap:wrap}.tag{border:1px solid #ffffff55;border-radius:20px;padding:5px 11px;font-size:11px}
+nav{display:flex;gap:8px;margin:17px 0}.tab{border:0;border-radius:28px;padding:11px 16px;background:white;color:#7b8291;font-weight:750;cursor:pointer}.tab.active{background:var(--blue);color:white}
+.panel{background:white;border:1px solid var(--line);border-radius:19px;padding:19px;margin:14px 0}
+.panel-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}.panel h2{font-size:16px;margin:0}.sub{font-size:12px;color:var(--muted)}
+.days{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.day{border:1px solid var(--line);border-radius:13px;background:#fff;padding:12px 5px;cursor:pointer;color:var(--ink)}.day strong{display:block;font-size:16px}.day small{font-size:10px;color:var(--muted)}.day.active{background:#edf0ff;border-color:#929ed0;color:#40549e}
+.track{height:8px;background:#edf0f5;border-radius:20px;overflow:hidden;margin:9px 0}.track span{display:block;height:100%;width:0;background:var(--blue)}
+.progressline{display:flex;justify-content:space-between;color:var(--muted);font-size:12px}
+.flash{min-height:305px;border:1px solid var(--line);border-radius:17px;background:linear-gradient(145deg,#fff,#fafbff);display:flex;align-items:center;justify-content:center;text-align:center;padding:25px;margin-top:16px}
+.word{font-size:48px;line-height:1.15;font-weight:850;letter-spacing:-1.5px;color:#394fa8;margin:0 0 17px;overflow-wrap:anywhere}
+.pos{font-size:12px;color:var(--muted);margin-bottom:5px}.hint{font-size:12px;color:var(--muted)}
+.answer{display:none;margin:8px auto 0;max-width:650px}.meaning{font-size:23px;font-weight:800;margin:8px 0 12px}.example{font-size:15px;margin:10px 0}.translation{font-size:12px;color:var(--muted);margin:0}
+.controls{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:14px}.btn{border:0;border-radius:12px;padding:13px 8px;background:#edf0f6;color:#51596b;font-weight:750;cursor:pointer}.btn.primary{background:var(--blue);color:white}.btn.good{background:#eaf6f0;color:#317657}.btn.bad{background:#fff0f0;color:#a64d55}.btn:disabled{opacity:.45}
+.rate{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}.section{display:none}.section.active{display:block}
+.question{font-size:27px;font-weight:800;color:#394fa8;margin:20px 0}.choice{display:block;width:100%;text-align:left;padding:13px;margin:8px 0;border:1px solid var(--line);border-radius:12px;background:white;color:var(--ink);cursor:pointer}.choice.correct{background:#eaf6f0;border-color:#55a17c}.choice.wrong{background:#fff0f0;border-color:#d78383}
+.listrow{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);font-size:14px}.empty{color:var(--muted);font-size:13px;padding:12px 0}
+@media(max-width:600px){main{padding:0 11px 35px}.hero{padding:22px 18px}.hero h1{font-size:27px}.panel{padding:15px}.days{gap:5px}.day{padding:10px 2px}.day strong{font-size:14px}.day small{font-size:9px}.flash{min-height:270px}.word{font-size:39px}nav{overflow-x:auto}.tab{white-space:nowrap;padding:10px 13px}}
+
+/* Shared weekly-calendar visual system */
+:root{--blue:#435d7a;--blue2:#344b68;--ink:#202a38;--muted:#718096;--line:#e4e9f0;--bg:#f4f6f9}
+body{background:var(--bg);color:var(--ink)}
+main{max-width:1240px}
+.hero{background:#344b68;border-radius:22px;padding:26px;color:#fff}
+.panel{border-radius:16px;box-shadow:0 3px 14px rgba(31,48,68,.045)}
+.tab.active,.btn.primary{background:#435d7a}
+.word,.question{color:#435d7a}
+.days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}
+.day{border-radius:12px;background:#fff;border-color:var(--line)}
+.day.active{background:#eaf0f6;border-color:#8da0b5;color:#344b68}
+.track span{background:#435d7a}
+.flash{background:linear-gradient(145deg,#fff,#f6f8fb);border-radius:16px}
+@media(max-width:700px){.days{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:420px){.days{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+
+/* 2028 pastel-blue academic design */
+:root{--blue:#718bb5;--blue2:#3b5278;--ink:#263957;--muted:#77869f;--line:#dce5f3;--bg:#f5f8fd}
+body{background:linear-gradient(145deg,#f5f8fd 0%,#eef3fb 100%);color:var(--ink);font-family:system-ui,-apple-system,"Noto Sans KR",sans-serif}
+main{max-width:1240px;padding:22px 22px 58px}
+h1,h2,h3,.word,.question,.day strong{font-family:Georgia,"Noto Serif KR",serif;letter-spacing:-.025em}
+.pwa-tools{background:rgba(255,255,255,.78)!important;border:1px solid #dce5f3!important;border-radius:15px!important;box-shadow:0 4px 18px rgba(65,87,125,.045);padding:11px 15px!important}
+.exam-countdown{display:inline-flex;align-items:center;gap:8px;border:1px solid #d4dfef;border-radius:24px;padding:6px 13px;background:#edf3fc;color:#344b70;font-family:Georgia,"Noto Serif KR",serif;font-size:14px;white-space:nowrap}
+.exam-countdown strong{font-size:17px;font-weight:700}
+.hero{background:linear-gradient(125deg,#e5edf9,#f4f7fc)!important;color:#2e4569!important;border:1px solid #dce5f3!important;border-radius:20px!important;padding:25px 27px!important;box-shadow:none!important}
+.hero p{color:#617491;opacity:1}
+.eyebrow{color:#617a9f;opacity:1}
+.panel{background:rgba(255,255,255,.9);border-color:var(--line);border-radius:16px;box-shadow:0 3px 12px rgba(55,78,116,.035)}
+.tab{border:1px solid var(--line);background:#fff;color:#617491}
+.tab.active,.btn.primary{background:#718bb5;color:#fff}
+.word,.question{color:#3b5278}
+.day{border-color:var(--line);background:#fff}
+.day.active{background:#eaf1fb;border-color:#9aafcf;color:#3b5278}
+.track{background:#e5ebf5}.track span{background:#718bb5}
+.flash{background:linear-gradient(145deg,#fff,#f2f6fc);border-color:var(--line)}
+.btn{background:#edf2f9;color:#4c6282}
+.btn.good{background:#e9f3ef;color:#4d7966}
+.btn.bad{background:#f8eeee;color:#9a6666}
+.choice{border-color:var(--line);background:#fff}
+.choice.correct{background:#e9f3ef;border-color:#8bb8a2}
+.choice.wrong{background:#f8eeee;border-color:#d5a0a0}
+.pwa-tools a{color:#4f6e9a}
+@media(max-width:600px){main{padding:12px 11px 36px}.hero{padding:20px 17px!important}.exam-countdown{font-size:12px;padding:5px 9px}}
+
+</style><link rel="manifest" href="./manifest.webmanifest">
+<meta name="theme-color" content="#354b9d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="icon" href="./icon.svg" type="image/svg+xml">
+</head>
+<body><main><div class="pwa-tools" style="display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin:0 0 12px;padding:10px 12px;background:#fff;border:1px solid #e5e8ef;border-radius:12px;font-size:13px">
+<span>오프라인 사용 준비됨 · 설치 후 인터넷 없이도 열 수 있습니다.</span>
+<span style="display:flex;gap:12px;align-items:center"><a href="./index.html">주간 학습 계획 →</a><button id="installApp" type="button" style="display:none;padding:7px 10px">홈 화면에 설치</button></span><span class="exam-countdown" aria-label="2028학년도 수능"><span aria-hidden="true">♟</span><strong data-exam-countdown>D-359</strong><span>2028학년도 수능</span></span></div>
+<header class="hero">
+<div class="eyebrow">CSAT ENGLISH · VOCABULARY BUILDER</div>
+<h1>수능 핵심 어휘 트레이너</h1>
+<p>수능 독해에 자주 쓰이는 핵심·학술 어휘 220개를 11일 과정으로 학습합니다. 뜻과 예문을 함께 익히고 누적 복습까지 이어가세요.</p>
+<div class="tags"><span class="tag">수능 핵심 어휘 220개</span><span class="tag">11일 분량 · 하루 20개</span><span class="tag">뜻 가리기 · 퀴즈 · 오답 복습</span></div>
+</header>
+<nav>
+<button class="tab active" data-tab="today">오늘 학습</button><button class="tab" data-tab="test">뜻 테스트</button><button class="tab" data-tab="wrong">오답 복습</button><button class="tab" data-tab="status">학습 현황</button>
+</nav>
+<section id="today" class="section active">
+<div class="panel">
+<div class="panel-head"><h2>학습할 단어 묶음</h2><span class="sub" id="dayLabel">1일차 · 1–20번</span></div>
+<div class="days" id="days"></div>
+<div class="track"><span id="dayBar"></span></div>
+<div class="progressline"><span id="dayCount">0 / 20</span><span id="dayKnown">이 묶음에서 확인한 단어 0 / 20개</span></div>
+<div class="flash">
+<div><div class="word" id="word">abandon</div><div class="pos" id="pos">동사</div><div class="hint" id="hint">뜻을 떠올린 다음 ‘뜻 확인’을 눌러 보세요.</div>
+<div class="answer" id="answer"><div class="meaning" id="meaning"></div><p class="example" id="example"></p><p class="translation" id="translation"></p></div></div>
+</div>
+<div class="controls"><button class="btn" id="prev">이전</button><button class="btn primary" id="reveal">뜻 확인</button><button class="btn" id="next">다음</button></div>
+<div class="rate"><button class="btn good" id="known">알고 있었어요 ✓</button><button class="btn bad" id="unknown">헷갈렸어요 ×</button></div>
+</div></section>
+<section id="test" class="section"><div class="panel"><div class="panel-head"><h2>뜻 테스트</h2><span class="sub">10문항</span></div><div id="quizArea"><p class="sub">전체 단어에서 무작위로 10문항이 출제됩니다.</p><button class="btn primary" id="startQuiz">테스트 시작하기</button></div></div></section>
+<section id="wrong" class="section"><div class="panel"><div class="panel-head"><h2>오답 복습</h2><span class="sub" id="wrongCount">0개</span></div><div id="wrongItems" class="empty">아직 오답으로 표시한 단어가 없습니다.</div></div></section>
+<section id="status" class="section"><div class="panel"><h2>전체 학습 현황</h2><p id="overall" class="sub"></p><div class="track"><span id="overallBar"></span></div><div id="statusItems"></div></div></section>
+</main>
+<script>
+const data=[
+["abandon","동사","버리다, 포기하다","They had to abandon the plan.","그들은 그 계획을 포기해야 했다."],
+["abstract","형용사","추상적인","The idea is too abstract for beginners.","그 생각은 초보자에게 너무 추상적이다."],
+["access","명사/동사","접근(하다), 이용(하다)","Students need access to reliable information.","학생들은 신뢰할 수 있는 정보에 접근할 수 있어야 한다."],
+["accompany","동사","동반하다, 함께하다","The report is accompanied by a chart.","그 보고서에는 도표가 함께 제시된다."],
+["account","명사","설명, 계정, 고려","The theory gives an account of the change.","그 이론은 그 변화에 대한 설명을 제공한다."],
+["achieve","동사","달성하다, 이루다","Small steps can help you achieve your goal.","작은 단계들이 목표 달성에 도움이 될 수 있다."],
+["adapt","동사","적응하다, 조정하다","Animals adapt to their environments.","동물은 환경에 적응한다."],
+["adequate","형용사","충분한, 적절한","The study provides adequate evidence.","그 연구는 충분한 근거를 제공한다."],
+["affect","동사","영향을 미치다","Sleep can affect concentration.","수면은 집중력에 영향을 줄 수 있다."],
+["aggregate","명사/형용사","총합, 집합체 / 총체의","The aggregate result was surprising.","전체 결과는 놀라웠다."],
+["alter","동사","바꾸다, 변경하다","A small change can alter the outcome.","작은 변화가 결과를 바꿀 수 있다."],
+["alternative","명사/형용사","대안 / 대안의","We need an alternative solution.","우리는 대안이 필요하다."],
+["analyze","동사","분석하다","Researchers analyze the collected data.","연구자들은 수집한 자료를 분석한다."],
+["annual","형용사","매년의, 연례의","The annual report was released in May.","연례 보고서는 5월에 발표되었다."],
+["anticipate","동사","예상하다, 기대하다","We anticipate further changes.","우리는 추가적인 변화를 예상한다."],
+["apparent","형용사","분명한, 겉으로 드러난","The difference became apparent.","그 차이가 분명해졌다."],
+["approach","명사/동사","접근법 / 접근하다","This approach may solve the problem.","이 접근법은 문제를 해결할 수 있다."],
+["appropriate","형용사","적절한","Choose an appropriate method.","적절한 방법을 선택하라."],
+["aspect","명사","측면, 양상","We examined every aspect of the issue.","우리는 그 문제의 모든 측면을 살펴보았다."],
+["assess","동사","평가하다","The test assesses reading ability.","그 시험은 읽기 능력을 평가한다."],
+["assume","동사","가정하다, 추정하다","Do not assume that all results are equal.","모든 결과가 같다고 가정하지 마라."],
+["benefit","명사/동사","이점, 혜택 / 이롭다","Regular exercise has many benefits.","규칙적인 운동에는 많은 이점이 있다."],
+["capacity","명사","능력, 수용력","The brain has a remarkable capacity to learn.","뇌는 놀라운 학습 능력을 지닌다."],
+["category","명사","범주, 부류","The items belong to different categories.","그 항목들은 서로 다른 범주에 속한다."],
+["challenge","명사/동사","도전, 어려움 / 이의를 제기하다","Climate change presents a major challenge.","기후 변화는 큰 과제를 제시한다."],
+["circumstance","명사","상황, 환경","The decision depends on the circumstances.","그 결정은 상황에 달려 있다."],
+["claim","동사/명사","주장하다 / 주장","The author claims that the method works.","저자는 그 방법이 효과가 있다고 주장한다."],
+["coherent","형용사","일관성 있는, 조리 있는","The essay presents a coherent argument.","그 글은 일관된 주장을 제시한다."],
+["complex","형용사/명사","복잡한 / 복합체","The issue is more complex than it seems.","그 문제는 보이는 것보다 복잡하다."],
+["concept","명사","개념","The concept is difficult to define.","그 개념은 정의하기 어렵다."],
+["conclude","동사","결론을 내리다","We can conclude that the pattern is real.","우리는 그 양상이 실제라고 결론 내릴 수 있다."],
+["conduct","동사/명사","수행하다, 실시하다 / 행동","Scientists conduct experiments carefully.","과학자들은 실험을 신중하게 수행한다."],
+["consequence","명사","결과, 영향","Every choice has consequences.","모든 선택에는 결과가 따른다."],
+["considerable","형용사","상당한","The project requires considerable time.","그 프로젝트에는 상당한 시간이 필요하다."],
+["consistent","형용사","일관된, 지속적인","The results are consistent with earlier research.","그 결과는 이전 연구와 일치한다."],
+["constitute","동사","구성하다, 이루다","These factors constitute a major part of the problem.","이 요인들은 문제의 큰 부분을 이룬다."],
+["consume","동사","소비하다, 섭취하다","People consume energy in different ways.","사람들은 다양한 방식으로 에너지를 소비한다."],
+["context","명사","맥락, 문맥","A word's meaning depends on its context.","단어의 의미는 문맥에 따라 달라진다."],
+["contrast","명사/동사","대조 / 대조하다","The writer contrasts two different views.","글쓴이는 서로 다른 두 관점을 대조한다."],
+["contribute","동사","기여하다, 원인이 되다","Many factors contribute to success.","많은 요인이 성공에 기여한다."],
+["derive","동사","얻다, 유래하다","The word is derived from Latin.","그 단어는 라틴어에서 유래했다."],
+["detect","동사","발견하다, 감지하다","The device can detect small changes.","그 장치는 작은 변화를 감지할 수 있다."],
+["devote","동사","바치다, 전념하다","She devoted her time to research.","그녀는 연구에 시간을 바쳤다."],
+["dimension","명사","차원, 측면","The problem has a social dimension.","그 문제에는 사회적 측면이 있다."],
+["distinct","형용사","뚜렷이 다른, 별개의","The two ideas are distinct.","두 생각은 서로 다르다."],
+["distribute","동사","분배하다, 배포하다","The resources are distributed equally.","자원은 균등하게 분배된다."],
+["domestic","형용사","국내의, 가정의","Domestic demand increased.","국내 수요가 증가했다."],
+["emerge","동사","나타나다, 드러나다","A new pattern began to emerge.","새로운 양상이 나타나기 시작했다."],
+["emphasize","동사","강조하다","The passage emphasizes the role of education.","그 글은 교육의 역할을 강조한다."],
+["enable","동사","가능하게 하다","Technology enables people to share information.","기술은 사람들이 정보를 공유하도록 해 준다."],
+["encounter","동사/명사","마주치다 / 만남","Researchers encountered an unexpected result.","연구자들은 예상치 못한 결과를 마주했다."],
+["establish","동사","확립하다, 설립하다","The study establishes a clear connection.","그 연구는 명확한 연관성을 확립한다."],
+["evaluate","동사","평가하다","We need to evaluate the evidence.","우리는 근거를 평가해야 한다."],
+["evident","형용사","분명한","It is evident that the method has limits.","그 방법에 한계가 있다는 점은 분명하다."],
+["evolve","동사","진화하다, 발전하다","Language continues to evolve.","언어는 계속 변화한다."],
+["exclude","동사","제외하다","The analysis excludes several factors.","그 분석은 몇몇 요인을 제외한다."],
+["expand","동사","확장하다, 확대하다","The business plans to expand its services.","그 기업은 서비스를 확대할 계획이다."],
+["factor","명사","요인","Cost is an important factor.","비용은 중요한 요인이다."],
+["feature","명사/동사","특징 / 특징으로 삼다","One feature of the system is its simplicity.","그 체계의 한 특징은 단순성이다."],
+["function","명사/동사","기능 / 기능하다","The heart functions as a pump.","심장은 펌프처럼 기능한다."],
+["generate","동사","만들어 내다, 발생시키다","The process generates heat.","그 과정은 열을 발생시킨다."],
+["identify","동사","확인하다, 식별하다","The researchers identified the cause.","연구자들은 원인을 확인했다."],
+["impact","명사/동사","영향 / 영향을 주다","The policy had a significant impact.","그 정책은 상당한 영향을 미쳤다."],
+["imply","동사","암시하다, 의미하다","The statement implies a different conclusion.","그 진술은 다른 결론을 암시한다."],
+["indicate","동사","나타내다, 가리키다","The results indicate a clear trend.","그 결과는 뚜렷한 경향을 나타낸다."],
+["individual","명사/형용사","개인 / 개별적인","Each individual responds differently.","각 개인은 다르게 반응한다."],
+["interpret","동사","해석하다","Readers may interpret the passage differently.","독자들은 그 글을 다르게 해석할 수 있다."],
+["involve","동사","포함하다, 수반하다","The task involves careful observation.","그 과제에는 세심한 관찰이 필요하다."],
+["issue","명사","문제, 쟁점","The article discusses an important issue.","그 기사는 중요한 쟁점을 다룬다."],
+["maintain","동사","유지하다, 주장하다","It is difficult to maintain balance.","균형을 유지하기는 어렵다."],
+["method","명사","방법","The researchers used a new method.","연구자들은 새로운 방법을 사용했다."],
+["occur","동사","발생하다, 일어나다","The change occurred gradually.","그 변화는 점진적으로 일어났다."],
+["obtain","동사","얻다, 획득하다","The team obtained useful data.","그 팀은 유용한 자료를 얻었다."],
+["participate","동사","참여하다","Many students participated in the project.","많은 학생이 그 프로젝트에 참여했다."],
+["perceive","동사","인식하다, 지각하다","People perceive colors in different ways.","사람들은 색을 서로 다르게 인식한다."],
+["period","명사","기간, 시대","The process takes a short period of time.","그 과정에는 짧은 시간이 걸린다."],
+["potential","명사/형용사","잠재력 / 잠재적인","The discovery has great potential.","그 발견은 큰 잠재력을 지닌다."],
+["principle","명사","원리, 원칙","The machine operates on a simple principle.","그 기계는 간단한 원리로 작동한다."],
+["process","명사/동사","과정 / 처리하다","Learning is a gradual process.","학습은 점진적인 과정이다."],
+["require","동사","요구하다, 필요로 하다","The task requires patience.","그 과제에는 인내심이 필요하다."],
+["respond","동사","반응하다, 응답하다","Plants respond to changes in light.","식물은 빛의 변화에 반응한다."],
+["restrict","동사","제한하다","The rule restricts access to the area.","그 규칙은 해당 구역에 대한 접근을 제한한다."],
+["significant","형용사","중요한, 상당한","There was a significant difference.","상당한 차이가 있었다."],
+["similar","형용사","비슷한","The two results are similar.","두 결과는 비슷하다."],
+["specific","형용사","구체적인, 특정한","Please provide a specific example.","구체적인 예를 제시해 주세요."],
+["structure","명사/동사","구조 / 구성하다","The structure of the text is clear.","글의 구조가 명확하다."],
+["subsequent","형용사","그 다음의, 후속의","Subsequent studies confirmed the finding.","후속 연구들이 그 발견을 확인했다."],
+["sufficient","형용사","충분한","There is not sufficient evidence.","충분한 근거가 없다."],
+["theory","명사","이론","The theory explains the observation.","그 이론은 관찰 결과를 설명한다."],
+["vary","동사","다르다, 변화하다","The results vary depending on conditions.","결과는 조건에 따라 달라진다."],
+["whereas","접속사","반면에","Some prefer speed, whereas others value accuracy.","어떤 사람은 속도를 선호하는 반면 다른 사람은 정확성을 중시한다."],
+["yield","동사/명사","산출하다, 양보하다 / 수확량","The experiment yielded useful results.","그 실험은 유용한 결과를 낳았다."],
+
+["abstractly","부사","추상적으로","The concept is explained abstractly.","그 개념은 추상적으로 설명된다."],
+["abundant","형용사","풍부한","The region has abundant natural resources.","그 지역에는 풍부한 천연자원이 있다."],
+["accurate","형용사","정확한","Accurate information is essential.","정확한 정보는 필수적이다."],
+["acknowledge","동사","인정하다, 감사의 뜻을 표하다","The author acknowledges the limits of the study.","저자는 연구의 한계를 인정한다."],
+["acquire","동사","얻다, 습득하다","Children acquire language through interaction.","아이들은 상호작용을 통해 언어를 습득한다."],
+["adjacent","형용사","인접한","The library is adjacent to the school.","도서관은 학교에 인접해 있다."],
+["adjust","동사","조정하다, 적응하다","The body adjusts to changes in temperature.","몸은 온도 변화에 적응한다."],
+["advocate","동사/명사","옹호하다 / 옹호자","Many scientists advocate careful research.","많은 과학자는 신중한 연구를 옹호한다."],
+["allocate","동사","할당하다, 배분하다","The school allocated more time to reading.","학교는 독서에 더 많은 시간을 배분했다."],
+["ambiguous","형용사","모호한, 여러 의미로 해석되는","The sentence is ambiguous without context.","그 문장은 문맥이 없으면 모호하다."],
+["analogy","명사","유추, 비유","The teacher used an analogy to explain the process.","교사는 그 과정을 설명하기 위해 비유를 사용했다."],
+["annual","형용사","매년의, 연례의","The annual event attracts many visitors.","그 연례 행사는 많은 방문객을 끌어들인다."],
+["apparent","형용사","분명한, 겉으로 드러난","The cause was not immediately apparent.","원인은 즉시 분명하게 드러나지 않았다."],
+["approximate","형용사/동사","대략의 / 가까워지다","The approximate distance is ten kilometers.","대략적인 거리는 10킬로미터이다."],
+["arbitrary","형용사","임의적인, 자의적인","The boundary may seem arbitrary.","그 경계는 자의적으로 보일 수 있다."],
+["assemble","동사","모으다, 조립하다","The students assembled the information.","학생들은 정보를 모았다."],
+["assign","동사","할당하다, 맡기다","Each member was assigned a different task.","각 구성원에게 서로 다른 과제가 맡겨졌다."],
+["attain","동사","달성하다, 도달하다","The team attained its main objective.","그 팀은 주요 목표를 달성했다."],
+["attribute","동사/명사","~의 탓으로 돌리다 / 속성","They attribute the change to climate.","그들은 그 변화를 기후 탓으로 돌린다."],
+["bias","명사","편향, 편견","Researchers should be aware of possible bias.","연구자들은 발생 가능한 편향을 인식해야 한다."],
+["brief","형용사","짧은, 간결한","The report provides a brief overview.","그 보고서는 간략한 개요를 제공한다."],
+["capable","형용사","능력이 있는","The device is capable of detecting small changes.","그 장치는 작은 변화를 감지할 수 있다."],
+["cease","동사","중단하다, 그치다","The noise ceased after a few minutes.","소음은 몇 분 뒤 멈췄다."],
+["clarify","동사","명확하게 하다","The diagram helps clarify the idea.","그 도표는 생각을 명확히 하는 데 도움이 된다."],
+["coincide","동사","동시에 일어나다, 일치하다","The two events coincided by chance.","두 사건은 우연히 동시에 일어났다."],
+["collapse","동사/명사","붕괴하다 / 붕괴","The structure collapsed under pressure.","그 구조물은 압력을 받아 붕괴했다."],
+["commence","동사","시작하다","The experiment will commence tomorrow.","실험은 내일 시작될 것이다."],
+["compensate","동사","보상하다, 보충하다","Extra practice can compensate for limited experience.","추가 연습은 부족한 경험을 보충할 수 있다."],
+["compile","동사","편집하다, 수집하다","The researchers compiled the results.","연구자들은 결과를 수집했다."],
+["complement","동사/명사","보완하다 / 보완물","The two methods complement each other.","두 방법은 서로를 보완한다."],
+["comply","동사","따르다, 준수하다","All participants must comply with the rules.","모든 참가자는 규칙을 준수해야 한다."],
+["comprehensive","형용사","포괄적인, 종합적인","The book offers a comprehensive explanation.","그 책은 포괄적인 설명을 제공한다."],
+["conceive","동사","생각해 내다, 상상하다","It is difficult to conceive of life without water.","물이 없는 삶을 상상하기는 어렵다."],
+["concentrate","동사","집중하다, 농축하다","Students need a quiet place to concentrate.","학생들은 집중할 조용한 장소가 필요하다."],
+["conclude","동사","결론을 내리다, 끝내다","We cannot conclude that the treatment is effective.","우리는 그 치료법이 효과적이라고 결론 내릴 수 없다."],
+["confer","동사","상의하다, 수여하다","The committee conferred before making a decision.","위원회는 결정을 내리기 전에 논의했다."],
+["confine","동사","제한하다, 가두다","The study was confined to one region.","그 연구는 한 지역으로 제한되었다."],
+["conform","동사","따르다, 순응하다","The design conforms to safety standards.","그 설계는 안전 기준을 따른다."],
+["confront","동사","맞서다, 직면하다","Society must confront this problem.","사회는 이 문제에 맞서야 한다."],
+["consequently","부사","결과적으로","The sample was small; consequently, the findings were limited.","표본이 작았고, 결과적으로 연구 결과에는 한계가 있었다."],
+["considerable","형용사","상당한","The project requires considerable effort.","그 프로젝트에는 상당한 노력이 필요하다."],
+["consistent","형용사","일관된, 모순되지 않는","The results are consistent with earlier research.","그 결과는 이전 연구와 일치한다."],
+["constitute","동사","구성하다, ~이 되다","These elements constitute the basic structure.","이 요소들이 기본 구조를 구성한다."],
+["constrain","동사","제약하다, 제한하다","Limited resources constrain the project.","제한된 자원이 프로젝트를 제약한다."],
+["construct","동사/명사","구성하다, 건설하다 / 개념적 구성","Researchers constructed a model.","연구자들은 모형을 구성했다."],
+["consume","동사","소비하다, 섭취하다","The process consumes a large amount of energy.","그 과정은 많은 양의 에너지를 소비한다."],
+["contemporary","형용사/명사","현대의 / 동시대인","The novel reflects contemporary society.","그 소설은 현대 사회를 반영한다."],
+["contradict","동사","모순되다, 반박하다","The new evidence contradicts the claim.","새로운 증거는 그 주장을 반박한다."],
+["controversial","형용사","논란이 많은","The proposal remains controversial.","그 제안은 여전히 논란이 많다."],
+["convert","동사","전환하다, 바꾸다","The device converts sunlight into electricity.","그 장치는 햇빛을 전기로 전환한다."],
+["correspond","동사","일치하다, 해당하다","The numbers correspond to different categories.","그 숫자들은 서로 다른 범주에 해당한다."],
+["criterion","명사","기준","Accuracy is an important criterion.","정확성은 중요한 기준이다."],
+["crucial","형용사","결정적인, 매우 중요한","Timing is crucial to the success of the plan.","시기는 계획의 성공에 결정적으로 중요하다."],
+["decline","동사/명사","감소하다, 거절하다 / 감소","The population began to decline.","인구가 감소하기 시작했다."],
+["deduce","동사","추론하다","We can deduce the answer from the evidence.","우리는 증거로부터 답을 추론할 수 있다."],
+["derive","동사","얻다, 유래하다","The word derives from Latin.","그 단어는 라틴어에서 유래한다."],
+["detect","동사","발견하다, 감지하다","The sensor can detect movement.","그 센서는 움직임을 감지할 수 있다."],
+["diminish","동사","줄어들다, 감소시키다","The effect gradually diminished.","그 효과는 점차 줄어들었다."],
+["disclose","동사","밝히다, 공개하다","The report disclosed new information.","그 보고서는 새로운 정보를 공개했다."],
+["displace","동사","옮겨 놓다, 대체하다","New technology may displace older methods.","새로운 기술은 오래된 방법을 대체할 수 있다."],
+["display","동사/명사","보여 주다 / 전시","The graph displays the changes over time.","그 그래프는 시간에 따른 변화를 보여 준다."],
+["dominate","동사","지배하다, 우세하다","One factor dominates the discussion.","한 요인이 논의를 지배한다."],
+["eliminate","동사","제거하다","The new method eliminates unnecessary steps.","새로운 방법은 불필요한 단계를 제거한다."],
+["ensure","동사","보장하다, 확실하게 하다","Clear instructions ensure consistent results.","명확한 지침은 일관된 결과를 보장한다."],
+["equivalent","형용사/명사","동등한 / 동등물","The two expressions have equivalent meanings.","두 표현은 동등한 의미를 지닌다."],
+["estimate","동사/명사","추정하다 / 추정","Experts estimate the cost of the project.","전문가들은 프로젝트 비용을 추정한다."],
+["exceed","동사","초과하다","The final number exceeded expectations.","최종 수치는 예상을 초과했다."],
+["exhibit","동사/명사","보이다, 전시하다 / 전시품","The material exhibits unusual properties.","그 물질은 특이한 성질을 보인다."],
+["exploit","동사","이용하다, 착취하다","Some organisms exploit available resources.","일부 생물은 이용 가능한 자원을 활용한다."],
+["facilitate","동사","촉진하다, 쉽게 하다","Visual aids facilitate understanding.","시각 자료는 이해를 돕는다."],
+["finite","형용사","유한한","Natural resources are finite.","천연자원은 유한하다."],
+["fluctuate","동사","변동하다","Prices fluctuate throughout the year.","가격은 일 년 내내 변동한다."],
+["formulate","동사","만들어 내다, 공식화하다","The team formulated a new hypothesis.","그 팀은 새로운 가설을 세웠다."],
+["fundamental","형용사/명사","근본적인 / 기본 원리","Trust is fundamental to cooperation.","신뢰는 협력의 기본이다."],
+["furthermore","부사","더욱이, 게다가","Furthermore, the results support the theory.","더욱이 그 결과는 이론을 뒷받침한다."],
+["hierarchy","명사","위계, 계층 구조","The organization has a clear hierarchy.","그 조직에는 명확한 위계가 있다."],
+["hypothesis","명사","가설","The experiment tested the hypothesis.","그 실험은 가설을 검증했다."],
+["illustrate","동사","설명하다, 예시하다","The example illustrates the main point.","그 예시는 핵심 내용을 설명한다."],
+["inevitable","형용사","불가피한","Some degree of change is inevitable.","어느 정도의 변화는 불가피하다."],
+["infer","동사","추론하다","Readers infer the meaning from context.","독자는 문맥에서 의미를 추론한다."],
+["inhibit","동사","억제하다, 저해하다","Low temperatures inhibit bacterial growth.","낮은 온도는 세균의 성장을 억제한다."],
+["initial","형용사/명사","초기의 / 머리글자","The initial results were encouraging.","초기 결과는 고무적이었다."],
+["innovative","형용사","혁신적인","The company introduced an innovative design.","그 회사는 혁신적인 설계를 도입했다."],
+["insight","명사","통찰, 이해","The study provides insight into human behavior.","그 연구는 인간 행동에 대한 통찰을 제공한다."],
+["integral","형용사/명사","필수적인, 전체를 이루는 / 적분","Feedback is an integral part of learning.","피드백은 학습의 필수적인 부분이다."],
+["intense","형용사","강렬한, 극심한","The region experienced intense rainfall.","그 지역에는 강한 비가 내렸다."],
+["interact","동사","상호작용하다","Different systems interact with one another.","서로 다른 체계들은 상호작용한다."],
+["justify","동사","정당화하다","The evidence does not justify the conclusion.","그 증거는 그 결론을 정당화하지 못한다."],
+["likewise","부사","마찬가지로","Likewise, the second group showed improvement.","마찬가지로 두 번째 집단도 향상을 보였다."],
+["magnitude","명사","규모, 중요성","The magnitude of the change was unexpected.","변화의 규모는 예상 밖이었다."],
+["maximize","동사","극대화하다","The design aims to maximize efficiency.","그 설계는 효율을 극대화하는 것을 목표로 한다."],
+["mechanism","명사","작동 원리, 기제","Scientists studied the mechanism behind the reaction.","과학자들은 그 반응의 작동 원리를 연구했다."],
+["mediate","동사","중재하다, 매개하다","The substance mediates communication between cells.","그 물질은 세포 사이의 신호 전달을 매개한다."],
+["modify","동사","수정하다, 변경하다","The researchers modified the original method.","연구자들은 원래 방법을 수정했다."],
+["monitor","동사/명사","관찰하다, 감시하다 / 모니터","Doctors monitor the patient's condition.","의사들은 환자의 상태를 관찰한다."],
+["notion","명사","개념, 생각","The passage challenges a common notion.","그 글은 흔한 통념에 의문을 제기한다."],
+["obvious","형용사","명백한","The difference is not always obvious.","그 차이가 항상 명백한 것은 아니다."],
+["optimistic","형용사","낙관적인","The researchers are optimistic about the outcome.","연구자들은 결과를 낙관하고 있다."],
+["orient","동사","향하게 하다, 방향을 잡다","The program is oriented toward practical skills.","그 프로그램은 실용적인 기술을 지향한다."],
+["outcome","명사","결과","The outcome depends on several factors.","결과는 여러 요인에 달려 있다."],
+["overlap","동사/명사","겹치다 / 중복","The two topics overlap in several areas.","두 주제는 여러 부분에서 겹친다."],
+["perspective","명사","관점, 시각","The issue looks different from another perspective.","그 문제는 다른 관점에서 보면 달라 보인다."],
+["precise","형용사","정확한, 정밀한","The instrument provides precise measurements.","그 기구는 정밀한 측정값을 제공한다."],
+["predict","동사","예측하다","The model predicts future changes.","그 모형은 미래의 변화를 예측한다."],
+["preserve","동사","보존하다, 유지하다","The policy aims to preserve local culture.","그 정책은 지역 문화를 보존하는 것을 목표로 한다."],
+["priority","명사","우선순위","Safety should remain the top priority.","안전이 최우선 순위로 유지되어야 한다."],
+["proportion","명사","비율, 부분","A large proportion of the group agreed.","집단의 상당수가 동의했다."],
+["relevant","형용사","관련 있는, 적절한","Use only relevant information.","관련 있는 정보만 사용하라."],
+["reliable","형용사","신뢰할 수 있는","The conclusion requires reliable evidence.","그 결론에는 신뢰할 수 있는 증거가 필요하다."],
+["reluctant","형용사","꺼리는, 마지못한","Some people are reluctant to change their habits.","일부 사람들은 습관을 바꾸기를 꺼린다."],
+["remove","동사","제거하다, 치우다","The filter removes unwanted particles.","그 필터는 원하지 않는 입자를 제거한다."],
+["represent","동사","나타내다, 대표하다","The figures represent the average values.","그 수치들은 평균값을 나타낸다."],
+["reveal","동사","드러내다, 밝히다","The results reveal an unexpected pattern.","그 결과는 예상치 못한 양상을 드러낸다."],
+["reverse","동사/형용사","뒤집다, 되돌리다 / 반대의","The new evidence reversed the earlier conclusion.","새로운 증거는 이전 결론을 뒤집었다."],
+["rigid","형용사","엄격한, 융통성 없는","A rigid system may limit creativity.","경직된 체계는 창의성을 제한할 수 있다."],
+["sequence","명사/동사","순서, 연속 / 순서대로 배열하다","The events occurred in a clear sequence.","그 사건들은 명확한 순서로 일어났다."],
+["shift","동사/명사","바꾸다, 이동하다 / 변화","Public opinion began to shift.","여론이 바뀌기 시작했다."],
+["stable","형용사","안정된","The system remains stable under normal conditions.","그 체계는 정상 조건에서 안정적으로 유지된다."],
+["strategy","명사","전략","The students developed a reading strategy.","학생들은 독해 전략을 개발했다."],
+["submit","동사","제출하다, 굴복하다","Applicants must submit the form by Friday.","지원자는 금요일까지 양식을 제출해야 한다."],
+["substitute","명사/동사","대체물 / 대신하다","There is no substitute for careful practice.","세심한 연습을 대신할 것은 없다."],
+["transform","동사","변형시키다, 바꾸다","Education can transform society.","교육은 사회를 변화시킬 수 있다."],
+["transmit","동사","전달하다, 전송하다","Nerve cells transmit electrical signals.","신경 세포는 전기 신호를 전달한다."],
+["undergo","동사","겪다, 경험하다","The material undergoes a chemical change.","그 물질은 화학적 변화를 겪는다."],
+["unique","형용사","독특한, 유일한","Each culture has unique traditions.","각 문화에는 고유한 전통이 있다."],
+["valid","형용사","타당한, 유효한","The argument is supported by valid evidence.","그 주장은 타당한 증거로 뒷받침된다."],
+["via","전치사","~을 통해","The message was sent via email.","그 메시지는 이메일을 통해 전송되었다."],
+["widespread","형용사","널리 퍼진","The technology has become widespread.","그 기술은 널리 보급되었다."]
+];
+const storageKey="csat_vocab_builder_v3";
+let state;try{state=JSON.parse(localStorage.getItem(storageKey)||localStorage.getItem("csat_vocab_builder_v2")||'{"known":[],"wrong":[]}')}catch(e){state={known:[],wrong:[]}}
+let day=0,index=0,quiz=[],qi=0,score=0,answered=false;
+const $=id=>document.getElementById(id);
+const save=()=>{localStorage.setItem(storageKey,JSON.stringify(state));renderStats()};
+const perDay=20;
+const dayTotal=Math.ceil(data.length/perDay);
+function group(){return data.map((_,i)=>i).slice(day*perDay,day*perDay+perDay)}
+function renderDays(){$("days").innerHTML="";for(let i=0;i<dayTotal;i++){let b=document.createElement("button");b.className="day"+(day===i?" active":"");let first=i*perDay+1,last=Math.min((i+1)*perDay,data.length);b.innerHTML=`<strong>${i+1}일차</strong><small>${first}–${last}번</small>`;b.onclick=()=>{day=i;index=0;renderDays();showWord()};$("days").append(b)}}
+function showWord(){let ids=group();index=Math.min(index,ids.length-1);let id=ids[index],d=data[id];$("dayLabel").textContent=`${day+1}일차 · ${day*perDay+1}–${day*perDay+ids.length}번`;$("word").textContent=d[0];$("pos").textContent=d[1];$("meaning").textContent=d[2];$("example").textContent=d[3];$("translation").textContent=d[4];$("answer").style.display="none";$("hint").style.display="block";$("reveal").style.display="block";$("dayCount").textContent=`${index+1} / ${ids.length}`;$("dayKnown").textContent=`이 묶음에서 확인한 단어 ${ids.filter(x=>state.known.includes(x)).length} / ${ids.length}개`;$("dayBar").style.width=(ids.filter(x=>state.known.includes(x)).length/ids.length*100)+"%";$("prev").disabled=index===0;$("next").disabled=index===ids.length-1}
+function reveal(){ $("answer").style.display="block";$("hint").style.display="none";$("reveal").style.display="none"; }
+function move(n){index=Math.max(0,Math.min(group().length-1,index+n));showWord()}
+function rate(known){let id=group()[index];state.known=state.known.filter(x=>x!==id);state.wrong=state.wrong.filter(x=>x!==id);if(known)state.known.push(id);else state.wrong.push(id);save();if(index<group().length-1)index++;showWord()}
+function switchTab(tab){document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));document.querySelectorAll(".section").forEach(s=>s.classList.toggle("active",s.id===tab));if(tab==="wrong")renderWrong();if(tab==="status")renderStats()}
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>switchTab(b.dataset.tab));
+$("prev").onclick=()=>move(-1);$("next").onclick=()=>move(1);$("reveal").onclick=reveal;$("known").onclick=()=>rate(true);$("unknown").onclick=()=>rate(false);
+function renderWrong(){let box=$("wrongItems");$("wrongCount").textContent=state.wrong.length+"개";box.innerHTML="";if(!state.wrong.length){box.className="empty";box.textContent="아직 오답으로 표시한 단어가 없습니다.";return}box.className="";state.wrong.forEach(id=>{let d=data[id],r=document.createElement("div");r.className="listrow";r.style.display="block";r.innerHTML=`<div style="display:flex;justify-content:space-between;gap:10px"><strong>${d[0]}</strong><span>${d[2]}</span></div><div style="font-size:13px;margin-top:6px">${d[3]}</div><div style="font-size:12px;color:var(--muted)">${d[4]}</div>`;box.append(r)})}
+function renderStats(){let n=state.known.length;$("overall").textContent=`알고 있음 ${n} / ${data.length}개 · 다시 보기 ${state.wrong.length}개`;$("overallBar").style.width=(n/data.length*100)+"%";$("statusItems").innerHTML=`<div class="listrow"><span>학습 완료 표시</span><strong>${n}개</strong></div><div class="listrow"><span>다시 보기</span><strong>${state.wrong.length}개</strong></div>`;let ids=group();$("dayKnown").textContent=`이 묶음에서 확인한 단어 ${ids.filter(x=>state.known.includes(x)).length} / ${ids.length}개`;$("dayBar").style.width=(ids.filter(x=>state.known.includes(x)).length/ids.length*100)+"%"}
+function startQuiz(){quiz=Array.from({length:data.length},(_,i)=>i).sort(()=>Math.random()-.5).slice(0,10);qi=0;score=0;question()}
+function question(){answered=false;let id=quiz[qi],others=Array.from({length:data.length},(_,i)=>i).filter(x=>x!==id).sort(()=>Math.random()-.5).slice(0,3),opts=[id,...others].sort(()=>Math.random()-.5);$("quizArea").innerHTML=`<div class="sub">문항 ${qi+1} / 10</div><div class="question">${data[id][0]}</div><div id="options"></div><p id="result" class="sub"></p><button class="btn primary" id="nextQuestion" style="display:none">다음 문제</button>`;opts.forEach(x=>{let b=document.createElement("button");b.className="choice";b.textContent=data[x][2];b.onclick=()=>{if(answered)return;answered=true;document.querySelectorAll(".choice").forEach(z=>z.disabled=true);if(x===id){score++;b.classList.add("correct");$("result").textContent="정답입니다."}else{b.classList.add("wrong");$("result").textContent="정답: "+data[id][2];if(!state.wrong.includes(id))state.wrong.push(id);save()}$("nextQuestion").style.display="block"};$("options").append(b)});$("nextQuestion").onclick=()=>{qi++;if(qi===10)$("quizArea").innerHTML=`<h2>테스트 완료</h2><div class="question">${score} / 10개 정답</div><p class="sub">틀린 단어는 오답 복습에서 확인하세요.</p><button class="btn primary" onclick="startQuiz()">다시 테스트</button>`;else question()}}
+$("startQuiz").onclick=startQuiz;
+function renderStatsInitial(){renderStats();renderWrong()}
+renderDays();showWord();renderStatsInitial();
+</script>
+<script>
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+}
+let installPrompt;
+window.addEventListener('beforeinstallprompt', (event) => {
+  event.preventDefault(); installPrompt=event;
+  const button=document.getElementById('installApp'); if(button) button.style.display='inline-block';
+});
+const installButton=document.getElementById('installApp');
+if(installButton) installButton.addEventListener('click', async()=>{
+  if(!installPrompt) return;
+  installPrompt.prompt(); await installPrompt.userChoice; installPrompt=null; installButton.style.display='none';
+});
+</script>
+
+<script>
+(function(){
+  const examDate = new Date(2027, 10, 18);
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  const diff = Math.round((examDate.getTime() - today.getTime()) / 86400000);
+  const label = diff > 0 ? `D-${diff}` : diff === 0 ? 'D-DAY' : `D+${Math.abs(diff)}`;
+  document.querySelectorAll('[data-exam-countdown]').forEach(el => {
+    el.textContent = label;
+    el.setAttribute('aria-label', `2028학년도 수능 ${label}`);
+  });
+})();
+</script>
+
+</body></html>

@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2028 수능 학습 계획</title>
+<style>
+:root{--ink:#202633;--muted:#667085;--line:#e5e8ef;--bg:#f5f7fb;--blue:#315cba;--pale:#edf3ff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Noto Sans KR",sans-serif;line-height:1.6}
+main{max-width:980px;margin:auto;padding:24px 16px 56px}h1{font-size:clamp(25px,5vw,36px);line-height:1.25;margin:8px 0}h2{font-size:21px;margin:0 0 12px}h3{font-size:17px;margin:0 0 8px}.sub{color:var(--muted);margin:8px 0 22px}
+section,.hero,.panel{background:white;border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0}
+.hero{background:linear-gradient(135deg,#eef3ff,#fff);border:0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.metric{background:white;border:1px solid var(--line);border-radius:12px;padding:14px}.metric b{display:block;font-size:22px}
+.tag{display:inline-block;background:var(--pale);color:var(--blue);border-radius:20px;padding:3px 9px;font-size:12px;font-weight:700}
+table{border-collapse:collapse;width:100%;font-size:14px}th,td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{background:#f8f9fc}
+a{color:var(--blue);font-weight:650} .note{color:var(--muted);font-size:13px}.task{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid #f0f1f4}.task:last-child{border:0}
+input[type=checkbox]{width:18px;height:18px;margin-top:3px;accent-color:var(--blue)}.bar{height:9px;background:#e9edf5;border-radius:20px;overflow:hidden}.bar span{display:block;height:100%;background:var(--blue);width:0}
+button{border:0;border-radius:10px;background:var(--blue);color:white;padding:10px 14px;font-weight:700;cursor:pointer}
+@media(max-width:600px){main{padding:16px 11px 40px}section,.hero{padding:14px}table{font-size:12px}th,td{padding:8px 5px}}
+
+.day-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.day-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px;margin:0}
+.day-card h3{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.day-card .period{font-size:12px;color:var(--muted);font-weight:500}
+.day-task{display:flex;gap:9px;align-items:flex-start;padding:9px 0;border-bottom:1px solid #f0f1f4;font-size:14px}
+.day-task:last-child{border:0}.day-task input{flex:0 0 auto}
+.day-total{font-size:12px;color:var(--muted);margin-top:10px}
+.day-card.rest{background:#fafbfe}
+@media(max-width:650px){.day-grid{grid-template-columns:1fr}}
+
+.date-label{font-size:12px;color:var(--blue);font-weight:750;margin-left:6px}
+.day-card.start-day{border:2px solid #5368c5;background:#f8f9ff}
+#startChoice button.selected{outline:3px solid #cbd5ff;background:#354b9d!important}
+.day-card.before-start{opacity:.45}
+
+.adapt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.adapt-field{display:flex;flex-direction:column;gap:5px;margin:9px 0;font-size:13px;font-weight:650}
+.adapt-field input,.adapt-field select{width:100%;min-height:42px;border:1px solid #d8deea;border-radius:9px;padding:9px;background:#fff;color:var(--ink);font:inherit;font-weight:450}
+.adapt-form{background:#f8f9fc;border:1px solid var(--line);border-radius:12px;padding:14px}
+.adapt-list{display:grid;gap:8px;margin-top:10px}
+.adapt-item{display:flex;gap:10px;align-items:flex-start;justify-content:space-between;background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px}
+.adapt-item.done{opacity:.58}.adapt-item.done .adapt-main{text-decoration:line-through}
+.adapt-main{min-width:0;flex:1}.adapt-actions{display:flex;gap:6px;flex-wrap:wrap}
+.adapt-actions button{padding:7px 9px;font-size:12px}
+button.secondary{background:#667085}
+.status-note{padding:10px 12px;background:#f2f5ff;border-radius:10px;color:#344b88;font-size:13px}
+@media(max-width:600px){.adapt-item{flex-direction:column}.adapt-actions{width:100%}}
+
+
+/* Shared weekly-calendar visual system */
+:root{--ink:#202a38;--muted:#718096;--line:#e4e9f0;--bg:#f4f6f9;--blue:#435d7a;--pale:#edf2f7}
+body{background:var(--bg);color:var(--ink)}
+main{max-width:1240px}
+.hero{background:#344b68;color:#fff;border-radius:22px;padding:26px}
+section,.panel,.metric,.day-card{border-radius:16px;box-shadow:0 3px 14px rgba(31,48,68,.045)}
+.tag{background:#eaf0f6;color:#3c5876}
+button{background:#435d7a}
+a{color:#435d7a}
+.day-grid{grid-template-columns:repeat(7,minmax(155px,1fr));gap:10px;overflow-x:auto;padding-bottom:8px;align-items:stretch}
+.day-card{min-width:155px;padding:13px;background:#fff;border:1px solid var(--line)}
+.day-card h3{font-size:14px;min-height:40px;align-items:flex-start}
+.day-task{font-size:12px;line-height:1.45;gap:7px;padding:9px 0}
+.day-task b{font-size:12px}
+.day-card.start-day{border:2px solid #58718d;background:#f8fafc}
+.day-card.before-start{opacity:.45}
+.day-card.rest{background:#eef2f6}
+.date-label{display:block;margin:3px 0 0;font-size:11px}
+#startChoice{background:#f8fafc}
+.weekday-strip{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;margin:12px 0}
+.weekday-strip span{background:#eaf0f6;border-radius:9px;padding:8px;text-align:center;font-size:12px;font-weight:750;color:#425b76}
+.moved-slot{border:1px solid #d8e2ec;background:#f5f8fb;border-radius:10px;padding:9px;margin:8px 0;font-size:12px}
+.moved-slot strong{display:block;color:#3d5875;margin-bottom:3px}
+.moved-slot button{margin-top:6px;padding:5px 8px;font-size:11px;background:#718096}
+.disrupted{opacity:.55;background:#f6f7f9;border-radius:8px}
+.disrupted span{text-decoration:line-through}
+.calendar-help{font-size:12px;color:var(--muted);margin:5px 0 12px}
+.rebalance-box{background:#f8fafc;border:1px solid var(--line);border-radius:14px;padding:15px}
+.rebalance-row{display:grid;grid-template-columns:1fr 1fr auto;gap:9px;align-items:end}
+.rebalance-row label{display:flex;flex-direction:column;gap:5px;font-size:12px;font-weight:700}
+.rebalance-row select{min-height:42px;border:1px solid #d6dee8;border-radius:9px;padding:8px;background:white;color:var(--ink);font:inherit}
+.rebalance-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
+.rebalance-summary>div{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px}
+.rebalance-summary b{display:block;font-size:19px}
+@media(max-width:950px){.day-grid{grid-template-columns:repeat(2,minmax(0,1fr));overflow:visible}.day-card{min-width:0}}
+@media(max-width:600px){.day-grid{grid-template-columns:1fr}.rebalance-row{grid-template-columns:1fr}.rebalance-summary{grid-template-columns:1fr 1fr}.weekday-strip{grid-template-columns:repeat(4,1fr)}main{padding:13px 10px 36px}.hero{padding:21px 17px}}
+
+
+/* 2028 pastel-blue academic design */
+:root{
+ --ink:#263957;--muted:#77869f;--line:#dce5f3;--bg:#f5f8fd;
+ --blue:#718bb5;--pale:#eaf1fb;--blue-dark:#3b5278;
+}
+body{background:linear-gradient(145deg,#f5f8fd 0%,#eef3fb 100%);color:var(--ink);font-family:system-ui,-apple-system,"Noto Sans KR",sans-serif}
+main{max-width:1320px;padding:24px 22px 60px}
+h1,h2,h3,.metric b,.day-card h3{font-family:Georgia,"Noto Serif KR",serif;letter-spacing:-.025em}
+h1{font-size:clamp(30px,4.5vw,46px);font-weight:500;color:#263957}
+h2{font-size:22px;font-weight:600;color:#304568}
+h3{font-weight:600}
+.pwa-tools{background:rgba(255,255,255,.78)!important;border:1px solid #dce5f3!important;border-radius:15px!important;box-shadow:0 4px 18px rgba(65,87,125,.045);padding:11px 15px!important}
+.exam-countdown{display:inline-flex;align-items:center;gap:8px;border:1px solid #d4dfef;border-radius:24px;padding:6px 13px;background:#edf3fc;color:#344b70;font-family:Georgia,"Noto Serif KR",serif;font-size:14px;white-space:nowrap}
+.exam-countdown strong{font-size:17px;font-weight:700}
+.hero{background:linear-gradient(125deg,#e5edf9,#f4f7fc)!important;color:#2e4569!important;border:1px solid #dce5f3!important;border-radius:20px!important;padding:25px 27px!important;box-shadow:none!important}
+.hero p{color:#617491}
+.hero .tag{background:#d6e3f5;color:#3e5b85}
+section,.panel,.metric,.day-card{background:rgba(255,255,255,.88);border:1px solid var(--line);border-radius:16px;box-shadow:0 3px 12px rgba(55,78,116,.035)}
+section{padding:19px}
+.metric{padding:15px}
+.metric b{font-size:23px;color:#344b70}
+.tag{background:#e4edf9;color:#46658f}
+button{background:#718bb5;color:white}
+a{color:#4f6e9a}
+th{background:#f0f4fa}
+.bar{background:#e5ebf5}.bar span{background:#718bb5}
+.day-grid{gap:9px}
+.day-card{background:#fff;padding:14px}
+.day-card.start-day{border:2px solid #829bc1;background:#eef3fb}
+.day-card.rest{background:#f0f4fa}
+.day-card h3{font-size:15px;color:#334b70}
+.day-task{border-bottom-color:#edf1f7}
+.date-label{color:#607da7}
+#startChoice button.selected{background:#718bb5!important;outline:3px solid #d7e2f2}
+.adapt-form,.rebalance-box,#startChoice{background:#f2f6fc;border-color:#dce5f3}
+.adapt-field input,.adapt-field select,.rebalance-row select{border-color:#d6e0ef;background:#fff}
+.status-note{background:#eaf1fb;color:#3f5c85}
+.moved-slot{background:#f0f5fc;border-color:#dce5f3}
+.moved-slot strong{color:#4a6893}
+.disrupted{background:#f2f4f8}
+@media(max-width:650px){main{padding:14px 11px 38px}.hero{padding:19px 17px!important}.pwa-tools{gap:8px}.exam-countdown{font-size:12px;padding:5px 9px}}
+
+</style><link rel="manifest" href="./manifest.webmanifest">
+<meta name="theme-color" content="#354b9d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="icon" href="./icon.svg" type="image/svg+xml">
+</head>
+<body><main><div class="pwa-tools" style="display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin:0 0 12px;padding:10px 12px;background:#fff;border:1px solid #e5e8ef;border-radius:12px;font-size:13px">
+<span>오프라인 사용 준비됨 · 설치 후 인터넷 없이도 열 수 있습니다.</span>
+<span style="display:flex;gap:12px;align-items:center"><a href="./vocabulary.html">영어 어휘 학습 →</a><button id="installApp" type="button" style="display:none;padding:7px 10px">홈 화면에 설치</button></span><span class="exam-countdown" aria-label="2028학년도 수능"><span aria-hidden="true">♟</span><strong data-exam-countdown>D-359</strong><span>2028학년도 수능</span></span></div>
+<div class="hero"><span class="tag">2028학년도 수능 대비</span><h1>나의 수능 학습 계획</h1>
+<p>확률과 통계를 먼저 시작하고 미적분Ⅰ을 병행하며, 국어 강기본 완성과 매일 영어 어휘 학습을 함께 진행합니다.</p>
+<p><a href="vocabulary.html">영어 필수 어휘 학습 사이트 열기 →</a></p></div>
+<div class="grid">
+<div class="metric"><b>30시간 40분</b><span class="note">주간 기본 학습 가능 시간</span></div>
+<div class="metric"><b>월–목 + 주말</b><span class="note">금요일은 고정 학습 없음</span></div>
+<div class="metric"><b>20개</b><span class="note">영어 신규 어휘 하루 목표</span></div>
+</div>
+<section id="dorm-routine"><h2>평일 기숙사 하루 일과</h2>
+<p class="note">필수 면학 시간은 학교 공식 명칭인 ET, EP1, EP2로 표시합니다. 22:30 이후 연장 면학은 신청한 날에만 선택적으로 진행합니다.</p>
+<div class="grid">
+<div class="metric"><b>16:50–18:10</b><span class="note">ET · 80분</span><p class="note">수학 또는 과학</p></div>
+<div class="metric"><b>18:10–19:20</b><span class="note">저녁 식사 및 휴식</span></div>
+<div class="metric"><b>19:20–20:50</b><span class="note">EP1 · 90분</span><p class="note">국어 또는 영어</p></div>
+<div class="metric"><b>20:50–21:10</b><span class="note">휴식</span></div>
+<div class="metric"><b>21:10–22:30</b><span class="note">EP2 · 80분</span><p class="note">영어·과학·사회 등 요일별 과목</p></div>
+<div class="metric"><b>22:30–00:30</b><span class="note">선택 연장 면학</span><p class="note">신청한 날에만 오답·어휘·미완료 학습 보충</p></div>
+</div><p class="note">필수 면학 학습량은 하루 4시간 10분입니다. 연장 면학을 매일 해야 하는 일정으로 잡지 않습니다.</p></section>
+<section><h2>현재 학습 우선순위</h2>
+<ol>
+<li><b>수학:</b> 확률과 통계 개념을 먼저 시작하고, 미적분Ⅰ을 주 2–3강 병행합니다.</li>
+<li><b>국어:</b> 강민철 강기본 문학·독서 남은 강의를 마무리하고 복습·적용을 진행합니다.</li>
+<li><b>영어:</b> 어휘 사이트에서 하루 신규 20개를 학습하고 누적 복습·퀴즈를 진행합니다. 이후 김지영 강좌를 단계적으로 시작합니다.</li>
+<li><b>통합과학:</b> 배기범 액시스 개념 강좌를 이어갑니다.</li>
+<li><b>통합사회:</b> 개념 흐름을 먼저 잡을 강사를 결정한 뒤 개념 강좌를 시작합니다.</li>
+<li><b>한국사:</b> 주 1회 짧게 누적 복습합니다.</li>
+</ol></section>
+<section><h2>하루별 학습 계획</h2>
+<p class="note">요일별로 해야 할 일을 하루 단위로 확인하고 완료한 항목에 체크하세요. 금요일은 고정 학습일로 잡지 않았습니다.</p>
+<div class="panel" id="startChoice">
+  <h3>학습 시작일 설정</h3>
+  <p class="note">교재 도착 일정에 따라 실제 시작일을 선택하세요. 선택한 날짜를 기준으로 하루별 계획에 날짜가 표시됩니다.</p>
+  <div style="display:flex;gap:9px;flex-wrap:wrap">
+    <button type="button" id="startWed">수요일(11월 18일)까지 교재 도착</button>
+    <button type="button" id="startMon" style="background:#667085">수요일까지 도착하지 않음 · 다음 주 월요일(11월 23일) 시작</button>
+  </div>
+  <p class="note" id="startMessage">아직 시작일을 선택하지 않았습니다.</p>
+</div>
+<div class="weekday-strip"><span>월요일</span><span>화요일</span><span>수요일</span><span>목요일</span><span>금요일</span><span>토요일</span><span>일요일</span></div>
+<div class="day-grid" id="dailyPlan">
+  <div class="day-card"><h3>월요일 <span class="period">총 4시간 10분</span></h3>
+    <label class="day-task"><input type="checkbox" data-day="mon"><span><b>ET · 수학 확률과 통계 (80분)</b><br>시발점 개념 강의 → 필기 정리 → 기본 예제 복습</span></label>
+    <label class="day-task"><input type="checkbox" data-day="mon"><span><b>EP1 · 국어 (90분)</b><br>강기본 문학 또는 독서 강의 → 핵심 내용 정리 및 복습</span></label>
+    <label class="day-task"><input type="checkbox" data-day="mon"><span><b>EP2 · 영어 (80분)</b><br>신규 어휘 20개 (20분) → 영어 강의·독해 (60분)</span></label>
+  </div>
+  <div class="day-card"><h3>화요일 <span class="period">총 4시간 10분</span></h3>
+    <label class="day-task"><input type="checkbox" data-day="tue"><span><b>ET · 수학 미적분Ⅰ (80분)</b><br>개념 강의 → 예제 풀이 → 틀린 문제 표시</span></label>
+    <label class="day-task"><input type="checkbox" data-day="tue"><span><b>EP1 · 영어 (90분)</b><br>신규 어휘 20개 (20분) → 영어 강의·독해 (70분)</span></label>
+    <label class="day-task"><input type="checkbox" data-day="tue"><span><b>EP2 · 통합과학 (80분)</b><br>배기범 액시스 개념 강의 → 개념 확인 문제</span></label>
+  </div>
+  <div class="day-card"><h3>수요일 <span class="period">총 4시간 10분</span></h3>
+    <label class="day-task"><input type="checkbox" data-day="wed"><span><b>ET · 수학 확률과 통계 (80분)</b><br>월요일 개념 복습 → 유형 문제 적용</span></label>
+    <label class="day-task"><input type="checkbox" data-day="wed"><span><b>EP1 · 국어 (90분)</b><br>강기본 문학 또는 독서 강의 → 지문·문제 복습</span></label>
+    <label class="day-task"><input type="checkbox" data-day="wed"><span><b>EP2 · 영어 어휘 복습 + 통합사회 (80분)</b><br>누적 어휘 복습 (15–20분) → 통합사회 개념 학습 (남은 시간)</span></label>
+  </div>
+  <div class="day-card"><h3>목요일 <span class="period">총 4시간 10분</span></h3>
+    <label class="day-task"><input type="checkbox" data-day="thu"><span><b>ET · 수학 미적분Ⅰ (80분)</b><br>화요일 내용 복습 → 기본·유형 문제 적용</span></label>
+    <label class="day-task"><input type="checkbox" data-day="thu"><span><b>EP1 · 영어 (90분)</b><br>신규 어휘 20개 (20분) → 영어 강의·독해 (70분)</span></label>
+    <label class="day-task"><input type="checkbox" data-day="thu"><span><b>EP2 · 통합과학 (80분)</b><br>액시스 개념 강의 → 핵심 개념 회상 및 문제 확인</span></label>
+  </div>
+  <div class="day-card rest"><h3>금요일 <span class="period">고정 학습 없음</span></h3>
+    <p>정해진 학습량을 배정하지 않습니다. 휴식하고, 꼭 필요한 경우에만 밀린 과제를 가볍게 보충하세요.</p>
+  </div>
+  <div class="day-card"><h3>토요일 <span class="period">12:00–19:00</span></h3>
+    <label class="day-task"><input type="checkbox" data-day="sat"><span><b>국어 (90분)</b><br>강기본 진도 및 주중 학습 내용 복습</span></label>
+    <label class="day-task"><input type="checkbox" data-day="sat"><span><b>영어 (90분)</b><br>신규 어휘 20개 (20분) → 영어 강의·독해 (70분)</span></label>
+    <label class="day-task"><input type="checkbox" data-day="sat"><span><b>통합과학 (90분)</b><br>주중 개념 복습 및 문제 적용</span></label>
+    <label class="day-task"><input type="checkbox" data-day="sat"><span><b>통합사회 (90분)</b><br>개념 강의 및 핵심 내용 정리</span></label>
+    <label class="day-task"><input type="checkbox" data-day="sat"><span><b>영어 어휘 테스트 (20분)</b><br>주간 단어 10문항 퀴즈 및 오답 표시</span></label>
+    <p class="day-total">과목 사이에 휴식 시간을 포함해 19시 안에 마무리합니다.</p>
+  </div>
+  <div class="day-card"><h3>일요일 <span class="period">12:00–19:00</span></h3>
+    <label class="day-task"><input type="checkbox" data-day="sun"><span><b>수학 (90분)</b><br>확통·미적분Ⅰ 주간 복습 및 문제 적용</span></label>
+    <label class="day-task"><input type="checkbox" data-day="sun"><span><b>국어 (90분)</b><br>강기본 복습 및 지문·문제 적용</span></label>
+    <label class="day-task"><input type="checkbox" data-day="sun"><span><b>통합과학 (90분)</b><br>주간 개념 정리 및 취약 부분 확인</span></label>
+    <label class="day-task"><input type="checkbox" data-day="sun"><span><b>통합사회 (90분)</b><br>개념 복습 및 핵심 내용 정리</span></label>
+    <label class="day-task"><input type="checkbox" data-day="sun"><span><b>한국사 (30분)</b><br>짧게 누적 복습</span></label>
+    <label class="day-task"><input type="checkbox" data-day="sun"><span><b>영어 어휘 오답 (15분)</b><br>이번 주 헷갈린 단어 다시 확인</span></label>
+    <p class="day-total">학습 블록 사이 휴식 시간을 두고 진행하세요.</p>
+  </div>
+</div>
+<div class="panel"><div class="bar"><span id="dailyProgress"></span></div><p class="note" id="dailyCount"></p><button type="button" onclick="resetDaily()">하루별 체크 초기화</button></div>
+<section id="flexiblePlanner">
+<h2>주간 일정 재배분</h2>
+<p class="calendar-help">ET·EP1·EP2 중 공부하지 못한 시간만 선택하면, 해당 학습을 남은 주간 여유 시간에 자동으로 나눠 배치합니다. 사유나 학습 내용을 따로 입력할 필요가 없습니다.</p>
+<div class="rebalance-box">
+  <div class="rebalance-row">
+    <label>공부하지 못한 요일
+      <select id="missedDay"><option value="mon">월요일</option><option value="tue">화요일</option><option value="wed">수요일</option><option value="thu">목요일</option></select>
+    </label>
+    <label>공부하지 못한 시간
+      <select id="missedBlock"><option value="ET">ET</option><option value="EP1">EP1</option><option value="EP2">EP2</option></select>
+    </label>
+    <button type="button" id="rebalanceButton">주간 계획 재배분</button>
+  </div>
+  <div class="rebalance-summary">
+    <div><span class="note">재배분할 학습</span><b id="movedMinutes">0분</b></div>
+    <div><span class="note">이번 주 보충 배치</span><b id="placedMinutes">0분</b></div>
+    <div><span class="note">다음 주 이월</span><b id="carryMinutes">0분</b></div>
+  </div>
+  <p class="note" id="rebalanceMessage">공부하지 못한 시간만 선택해 주세요. 금요일을 우선 여유 시간으로 사용하고, 남는 분량은 주말의 짧은 여유 시간에 나눕니다.</p>
+</div>
+<div class="adapt-list" id="disruptionList"><p class="note">아직 변경된 일정이 없습니다.</p></div>
+<div class="adapt-form" style="margin-top:12px">
+  <h3>재배분 결과가 반영되는 위치</h3>
+  <p class="calendar-help">금요일의 비워 둔 학습 시간(최대 250분)을 먼저 사용합니다. 이후 토요일 40분, 일요일 15분의 기본 여유 시간을 활용합니다. 그래도 배치하지 못한 분량은 무리하게 추가하지 않고 다음 주로 이월합니다.</p>
+  <div id="reallocationPreview" class="note">일정 변경을 등록하면 금요일과 주말 카드에 보충 학습이 표시됩니다.</div>
+</div>
+</section>
+<section><h2>영어 어휘 학습 루틴</h2>
+<div class="grid"><div class="panel"><h3>월·화·목·토</h3><b>신규 어휘 20개</b><p class="note">뜻 확인 → 예문으로 쓰임 확인 → 가리고 회상 → 모르는 단어 표시</p></div>
+<div class="panel"><h3>수요일</h3><b>누적 복습 15–20분</b><p class="note">새 단어를 무리하게 늘리지 않고 앞서 배운 단어를 다시 확인</p></div>
+<div class="panel"><h3>토요일</h3><b>주간 테스트</b><p class="note">학습한 단어 중 10개 퀴즈, 틀린 단어 표시</p></div>
+<div class="panel"><h3>일요일</h3><b>오답 회수</b><p class="note">틀린 단어와 헷갈린 단어를 다시 학습하고 다음 주 신규 학습량 조정</p></div></div>
+<p><a href="vocabulary.html">어휘 학습 사이트 바로가기 →</a></p>
+<p class="note">사이트의 220개 단어는 수능 독해 기초·빈출 학술 어휘를 선별한 학습용 목록이며, 공식 수능 필수 단어 전체 목록이라고 단정하지 않습니다. 단어가 익숙해지면 독해 지문 속 의미와 결합 표현까지 확인합니다.</p></section>
+<section><h2>과목별 강의·학습 진도</h2>
+<table><thead><tr><th>과목</th><th>현재 상태</th><th>다음 목표</th></tr></thead><tbody>
+<tr><th>국어</th><td>강기본 문학 15/33, 독서 15/31</td><td>문학·독서 각각 주 4강 안팎 + 복습</td></tr>
+<tr><th>수학</th><td>확통 미학습, 미적분Ⅰ 1–2회 학습했으나 적용 약함</td><td>현우진 시발점 확통부터 시작, 미적분Ⅰ 주 2–3강 병행</td></tr>
+<tr><th>영어</th><td>강의 미시작, 어휘 약점</td><td>어휘 사이트 매일 활용 후 김지영 V 스타트 등 단계적 수강</td></tr>
+<tr><th>통합과학</th><td>배기범 액시스 수강 중</td><td>개념 강의 지속 + 개념 확인 문제</td></tr>
+<tr><th>통합사회</th><td>미시작</td><td>샘플 강의 비교 후 한 강사 개념 강좌 선택</td></tr>
+<tr><th>한국사</th><td>체계적 학습 전</td><td>일요일 30분 누적 복습</td></tr>
+</tbody></table>
+<p class="note">수학 수강 범위는 2028 수능 과목인 대수·미적분Ⅰ·확률과 통계를 중심으로 잡습니다. 기하·미적분Ⅱ는 현재 수능 수학 계획에 넣지 않습니다.</p></section>
+<section><h2>월별 큰 흐름</h2>
+<ul><li><b>2026년 11–12월:</b> 국어 강기본 완성, 확통 시작 및 미적분Ⅰ 병행, 영어 어휘 루틴 정착, 과학 개념 지속, 통합사회 강사·강좌 확정.</li>
+<li><b>2027년 1–2월:</b> 수학·탐구 개념 진도 확보, 영어 기본 독해와 어휘 누적.</li>
+<li><b>3–4월:</b> 개념 마무리 및 기본·중간 난도 문제 적용.</li>
+<li><b>5–6월:</b> 기출 분석과 취약 단원 보완.</li>
+<li><b>7–8월:</b> 심화 문제, 자료 해석, 실전 모의 연습.</li>
+<li><b>9–10월:</b> 시간 관리 중심 실전 연습과 약점 집중 보완.</li>
+<li><b>11월:</b> 새 교재·강의 확장보다 오답과 핵심 개념 최종 점검.</li></ul></section>
+<section><h2>하루별 진행 확인</h2><p class="note">위의 각 요일 카드에서 완료한 학습에 체크하면 전체 진행률에 반영됩니다.</p></section>
+<p class="note">이 계획은 현재 확인된 진도와 주간 시간에 맞춘 초안입니다. 실제 강의 소요 시간과 주간 피로도에 따라 매주 목표를 조정하세요.</p>
+</main>
+<script>
+const dailyKey="csatPlannerDaily2028";
+const startKey="csatPlannerStart2028";
+let chosenStart=localStorage.getItem(startKey)||"";
+const dayOrder=["mon","tue","wed","thu","fri","sat","sun"];
+const dayNames={mon:"월요일",tue:"화요일",wed:"수요일",thu:"목요일",fri:"금요일",sat:"토요일",sun:"일요일"};
+const startDates={wed:new Date(2026,10,18),mon:new Date(2026,10,23)};
+function dateText(date){return `${date.getMonth()+1}월 ${date.getDate()}일`;}
+function applyStart(){
+  const grid=document.getElementById("dailyPlan");
+  const cards=[...grid.querySelectorAll(".day-card")];
+  const startIndex=chosenStart==="wed"?2:0;
+  const startDate=startDates[chosenStart];
+  if(!startDate){
+    document.getElementById("startMessage").textContent="교재 도착 여부를 확인한 뒤 시작일을 선택해 주세요.";
+    document.getElementById("startWed").classList.remove("selected");
+    document.getElementById("startMon").classList.remove("selected");
+    cards.forEach(card=>{card.classList.remove("start-day","before-start");let label=card.querySelector(".date-label");if(label)label.remove();});
+    return;
+  }
+  const ordered=[...dayOrder.slice(startIndex),...dayOrder.slice(0,startIndex)];
+  ordered.forEach(key=>{
+    const card=cards.find(c=>c.querySelector(`[data-day="${key}"]`));
+    if(card)grid.appendChild(card);
+  });
+  ordered.forEach((key,i)=>{
+    const card=cards.find(c=>c.querySelector(`[data-day="${key}"]`));
+    if(!card)return;
+    const date=new Date(startDate);date.setDate(date.getDate()+i);
+    const heading=card.querySelector("h3");
+    let label=heading.querySelector(".date-label");
+    if(!label){label=document.createElement("span");label.className="date-label";heading.appendChild(label);}
+    label.textContent=dateText(date);
+    card.classList.toggle("start-day",i===0);
+    card.classList.remove("before-start");
+  });
+  document.getElementById("startWed").classList.toggle("selected",chosenStart==="wed");
+  document.getElementById("startMon").classList.toggle("selected",chosenStart==="mon");
+  document.getElementById("startMessage").textContent=chosenStart==="wed"
+    ?"교재가 수요일까지 도착하는 일정으로 설정했습니다. 11월 18일 수요일부터 시작합니다."
+    :"교재가 수요일까지 도착하지 않는 일정으로 설정했습니다. 11월 23일 월요일부터 시작합니다.";
+}
+document.getElementById("startWed").addEventListener("click",()=>{
+  chosenStart="wed";localStorage.setItem(startKey,chosenStart);applyStart();
+});
+document.getElementById("startMon").addEventListener("click",()=>{
+  chosenStart="mon";localStorage.setItem(startKey,chosenStart);applyStart();
+});
+let dailyState={};
+try{dailyState=JSON.parse(localStorage.getItem(dailyKey)||"{}")}catch(e){dailyState={}}
+const dailyChecks=[...document.querySelectorAll('#dailyPlan input[type="checkbox"]')];
+function updateDaily(){
+  const total=dailyChecks.length,done=dailyChecks.filter(x=>x.checked).length;
+  document.getElementById("dailyProgress").style.width=(done/total*100)+"%";
+  document.getElementById("dailyCount").textContent=`하루별 학습 ${done}/${total}개 완료`;
+}
+dailyChecks.forEach((box,i)=>{
+  box.checked=!!dailyState[i];
+  box.addEventListener("change",()=>{
+    dailyState[i]=box.checked;
+    localStorage.setItem(dailyKey,JSON.stringify(dailyState));
+    updateDaily();
+  });
+});
+function resetDaily(){
+  dailyState={};
+  localStorage.setItem(dailyKey,"{}");
+  dailyChecks.forEach(x=>x.checked=false);
+  updateDaily();
+}
+updateDaily();
+applyStart();
+</script>
+
+<script>
+const disruptionKey="csatPlannerDisruptions2028_v2";
+const readDisruptions=()=>{try{return JSON.parse(localStorage.getItem(disruptionKey)||"[]")}catch(e){return []}};
+let disruptions=readDisruptions();
+const dayLabel={mon:"월요일",tue:"화요일",wed:"수요일",thu:"목요일"};
+const dayOrder=["mon","tue","wed","thu"];
+const blockMinutes={ET:80,EP1:90,EP2:80};
+const blockIndex={ET:0,EP1:1,EP2:2};
+const escapeHTML=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function getSlot(day,block){
+ const card=[...document.querySelectorAll("#dailyPlan .day-card")].find(c=>c.querySelector(`[data-day="${day}"]`));
+ if(!card)return null;
+ const boxes=[...card.querySelectorAll('input[type="checkbox"][data-day]')];
+ const input=boxes[blockIndex[block]];
+ return input?{card,input,label:input.closest("label"),text:input.closest("label").innerText.replace(/\s+/g," ").trim()}:null;
+}
+function ensureReallocationAreas(){
+ const cards=[...document.querySelectorAll("#dailyPlan .day-card")];
+ const fri=cards.find(c=>c.querySelector("h3")?.innerText.includes("금요일"));
+ const sat=cards.find(c=>c.querySelector("h3")?.innerText.includes("토요일"));
+ const sun=cards.find(c=>c.querySelector("h3")?.innerText.includes("일요일"));
+ [[fri,"friReallocated"],[sat,"satReallocated"],[sun,"sunReallocated"]].forEach(([card,id])=>{
+   if(card&&!document.getElementById(id)){const div=document.createElement("div");div.id=id;card.append(div);}
+ });
+}
+function allocate(){
+ const active=disruptions.filter(x=>!x.cancelled).sort((a,b)=>dayOrder.indexOf(a.day)-dayOrder.indexOf(b.day)||blockIndex[a.block]-blockIndex[b.block]);
+ let capacities=[{id:"friReallocated",name:"금요일",left:250},{id:"satReallocated",name:"토요일",left:40},{id:"sunReallocated",name:"일요일",left:15}];
+ let total=0,placed=0,carry=0,htmlById={friReallocated:[],satReallocated:[],sunReallocated:[]};
+ active.forEach(item=>{
+   let remain=item.minutes;
+   total+=item.minutes;
+   capacities.forEach(cap=>{
+     if(remain<=0||cap.left<=0)return;
+     const amount=Math.min(remain,cap.left);
+     htmlById[cap.id].push(`<div class="moved-slot"><strong>${cap.name} · ${amount}분 보충</strong>${escapeHTML(item.dayName)} ${escapeHTML(item.block)}에서 이동<br>${escapeHTML(item.task)}</div>`);
+     cap.left-=amount;remain-=amount;placed+=amount;
+   });
+   if(remain>0){carry+=remain;htmlById.friReallocated.push(`<div class="moved-slot"><strong>다음 주 이월 · ${remain}분</strong>${escapeHTML(item.dayName)} ${escapeHTML(item.block)}에서 이동<br>${escapeHTML(item.task)}</div>`);}
+ });
+ capacities.forEach(cap=>{const el=document.getElementById(cap.id);if(el)el.innerHTML=htmlById[cap.id].join("");});
+ document.getElementById("movedMinutes").textContent=total+"분";
+ document.getElementById("placedMinutes").textContent=placed+"분";
+ document.getElementById("carryMinutes").textContent=carry+"분";
+ document.getElementById("rebalanceMessage").textContent=total===0
+   ?"공부하지 못한 시간만 선택해 주세요. 금요일을 우선 여유 시간으로 사용합니다."
+   :carry>0?`이번 주 여유 시간에 ${placed}분을 배치했고, 남은 ${carry}분은 다음 주로 이월했습니다.`
+   :`총 ${total}분을 남은 주간 여유 시간에 나누어 배치했습니다.`;
+ document.getElementById("reallocationPreview").textContent=total===0
+   ?"일정 변경을 등록하면 금요일과 주말 카드에 보충 학습이 표시됩니다."
+   :`금요일 여유 시간 ${250-capacities[0].left}/250분 · 토요일 ${40-capacities[1].left}/40분 · 일요일 ${15-capacities[2].left}/15분 사용`;
+}
+function renderDisruptions(){
+ const el=document.getElementById("disruptionList");
+ const active=disruptions.filter(x=>!x.cancelled);
+ if(!active.length){el.innerHTML='<p class="note">아직 변경된 일정이 없습니다.</p>';}
+ else el.innerHTML=active.map(x=>`<div class="adapt-item"><div class="adapt-main"><b>${escapeHTML(x.dayName)} ${escapeHTML(x.block)}</b><div class="note">${escapeHTML(x.task)} · ${x.minutes}분을 주간 계획에서 재배분</div></div><div class="adapt-actions"><button type="button" class="secondary" data-undo="${x.id}">변경 취소</button></div></div>`).join("");
+ el.querySelectorAll("[data-undo]").forEach(btn=>btn.addEventListener("click",()=>{
+   disruptions=disruptions.filter(x=>x.id!==Number(btn.dataset.undo));
+   localStorage.setItem(disruptionKey,JSON.stringify(disruptions));renderAll();
+ }));
+ disruptions.filter(x=>!x.cancelled).forEach(x=>{
+   const slot=getSlot(x.day,x.block);
+   if(slot){slot.label.classList.add("disrupted");slot.input.checked=false;slot.input.disabled=true;}
+ });
+}
+function renderAll(){
+ ensureReallocationAreas();
+ document.querySelectorAll("#dailyPlan label.day-task").forEach(label=>label.classList.remove("disrupted"));
+ document.querySelectorAll("#dailyPlan input[data-day]").forEach(input=>input.disabled=false);
+ renderDisruptions();allocate();
+}
+document.getElementById("rebalanceButton").addEventListener("click",()=>{
+ const day=document.getElementById("missedDay").value;
+ const block=document.getElementById("missedBlock").value;
+ if(disruptions.some(x=>x.day===day&&x.block===block)){
+   document.getElementById("rebalanceMessage").textContent="이미 재배분한 시간입니다. 변경을 취소한 뒤 다시 등록할 수 있습니다.";
+   return;
+ }
+ const slot=getSlot(day,block);
+ if(!slot)return;
+ disruptions.push({id:Date.now(),day,dayName:dayLabel[day],block,minutes:blockMinutes[block],task:slot.text});
+ localStorage.setItem(disruptionKey,JSON.stringify(disruptions));
+ renderAll();
+});
+renderAll();
+</script>
+
+<script>
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+}
+let installPrompt;
+window.addEventListener('beforeinstallprompt', (event) => {
+  event.preventDefault(); installPrompt=event;
+  const button=document.getElementById('installApp'); if(button) button.style.display='inline-block';
+});
+const installButton=document.getElementById('installApp');
+if(installButton) installButton.addEventListener('click', async()=>{
+  if(!installPrompt) return;
+  installPrompt.prompt(); await installPrompt.userChoice; installPrompt=null; installButton.style.display='none';
+});
+</script>
+
+<script>
+(function(){
+  const examDate = new Date(2027, 10, 18);
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  const diff = Math.round((examDate.getTime() - today.getTime()) / 86400000);
+  const label = diff > 0 ? `D-${diff}` : diff === 0 ? 'D-DAY' : `D+${Math.abs(diff)}`;
+  document.querySelectorAll('[data-exam-countdown]').forEach(el => {
+    el.textContent = label;
+    el.setAttribute('aria-label', `2028학년도 수능 ${label}`);
+  });
+})();
+</script>
+
+</body></html>
